@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../locals-object/locals-object.html">
+<link rel="import" href="../locals-object/locals-dataobject.html">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -36,7 +38,8 @@ Example:
     </style>
     <iron-pages selected="{{state}}">
       <section id="closed">
-        <p on-tap="open">Community</p>
+       <locals-object on-internalstatechange="_fixdata" config="[[config]]" state="{{visualstate}}" on-state-changed="_visualstatechanged"></locals-object>
+        <!-- <locals-dataobject on-state-changed="_datastatechanged" state="{{datastate}}" config="[[dataconfig]]"></locals-dataobject> -->
       </section>
       <section id="init">
         <h1>Welcome to your new community</h1>
@@ -59,14 +62,27 @@ Example:
 
     properties: {
 
-      /**
-       * `fancy` indicates that the element should don a monocle and tophat,
-       * while checking its pocket watch.
-       */
-      fancy: Boolean,
+       _version: {
+          type: String,
+          value: '0.0.1'
+        },
+        /* Configuration of the object's visual state.
+        can be set on initialisation - data is returned to this variable.
+        */
+        visualstate: {
+          type: Array,
+          notify: true
+        },
+        /* configuration of the object's data state.
+         can be set on initialisation - data is returned to this variable
+        */
+        datastate: {
+          type: Object,
+          notify: true
+        }
 
       
-      },
+     
 
     },
 
@@ -80,6 +96,55 @@ Example:
       //
       // This is the point where you should make modifications to the DOM (when
       // necessary), or kick off any processes the element wants to perform.
+
+ this.dataconfig = {
+          fields: [
+            {
+              name: "firstname",
+              type: "input",
+              label: "Firstname"
+            }, {
+              name: "lastname",
+              type: "input",
+              label: "Lastname"
+            }, {
+              name: "birthplace",
+              type: "input",
+              label: "Birthplace"
+            }, {
+              name: "birthdate",
+              type: "input",
+              label: "Birthdate"
+            },
+          ]
+        };
+
+        this.config = 
+{ layers: 
+   [ { name: 'flag',
+       icon: this.resolveUrl("./images/flag-icon.png"),
+       iconselected: this.resolveUrl("./images/flag-icon-selected.png"),
+       variants: [ 'default' ],
+       colors: 
+        [ 'blue',
+          'darkblue',
+          'green',
+          'lightblue',
+          'purple',
+          'red',
+          'yellow' ],
+       images: 
+        { 'default-blue': this.resolveUrl("./images/0-community-flag-default-blue.png"),
+          'default-darkblue': this.resolveUrl("./images/0-community-flag-default-darkblue.png"),
+          'default-green': this.resolveUrl("./images/0-community-flag-default-green.png"),
+          'default-lightblue': this.resolveUrl("./images/0-community-flag-default-lightblue.png"),
+          'default-purple': this.resolveUrl("./images/0-community-flag-default-purple.png"),
+          'default-red': this.resolveUrl("./images/0-community-flag-default-red.png"),
+          'default-yellow': this.resolveUrl("./images/0-community-flag-default-yellow.png") } } ],
+  defaultstate: [ [ 0, 0 ] ] }
+
+;
+
     },
 
     attached: function() {
