@@ -38,6 +38,7 @@ Example:
     </style>
     <iron-pages selected="{{state}}">
       <section id="closed">
+      CLOSED
        <locals-object on-internalstatechange="_fixdata" config="[[config]]" state="{{visualstate}}" on-state-changed="_visualstatechanged"></locals-object>
         <!-- <locals-dataobject on-state-changed="_datastatechanged" state="{{datastate}}" config="[[dataconfig]]"></locals-dataobject> -->
       </section>
@@ -61,6 +62,7 @@ Example:
     is: 'locals-community',
 
     properties: {
+
 
        _version: {
           type: String,
@@ -89,7 +91,7 @@ Example:
     // Element Lifecycle
 
     ready: function() {
-      this.state = 0;
+      this.state = 'closed';
       // `ready` is called after all elements have been configured, but
       // propagates bottom-up. This element's children are ready, but parents
       // are not.
@@ -144,6 +146,11 @@ Example:
   defaultstate: [ [ 0, 0 ] ] }
 
 ;
+
+    },
+
+    // Fix 
+    _fixdata: function(){
 
     },
 
